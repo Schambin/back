@@ -12,7 +12,7 @@ router.get('/list-users', async (req, res) => {
                 id: true,
                 name: true,
                 email: true,
-                password: true,
+                password: false,
             },
         });
 
@@ -20,7 +20,7 @@ router.get('/list-users', async (req, res) => {
 
     } catch (err) {
         console.error('Error fetching users:', err);
-        res.status(500).json({ message: 'Error fetching users' });
+        return res.status(500).json({ message: 'Error fetching users' });
     }
 });
 
