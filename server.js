@@ -10,7 +10,7 @@ const port = 3333;
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
-app.use("/", auth, privateRoutes);
+app.use("/p", auth, privateRoutes);
 app.use("/", publicRoutes);
 
 app.listen(port, () => {
