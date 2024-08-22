@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 router.get('/list-users', async (req, res) => {
     try {
         const users = await prisma.user.findMany({
-            //Select which data from users table will return
+        //Select which data from users table will return. Change to boolean
             select: {
                 id: true,
                 name: true,

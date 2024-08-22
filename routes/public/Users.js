@@ -35,8 +35,8 @@ router.post('/register', async (req, res) => {
 
         res.status(201).json(userDB);
     } catch (err) {
-        console.error('Erro ao tentar criar o usuário:', err);
-        res.status(500).json({ message: 'Erro no servidor. Tente novamente mais tarde' });
+        console.error('Error:', err);
+        res.status(500).json({ message: 'Server error. try again later.' });
     }
 });
 
@@ -44,30 +44,30 @@ router.post('/register', async (req, res) => {
 router.post('/signin', async (req, res) => {
     try {
         const userData = req.body;
-        const userAlreadyExists = await prisma.user.findUnique({
+        const userDbData = await prisma.user.findUnique({
             where: {
                 email: userData.email,
             },
         });
 
-        if (!userAlreadyExists) {
-            return res.status(404).json({ message: 'Usuário não encontrado' });
+        if (!userDbData) {
+            return res.status(404).json({ message: 'User not found.' });
         }
 
-        const isPasswordCorrect = await bcrypt.compare(userData.password, userAlreadyExists.password);
+        const isPasswordCorrect = await bcrypt.compare(userData.password, userDbData.password);
 
         if (!isPasswordCorrect) {
-            return res.status(401).json({ message: 'Invalid Password' });  // Senha incorreta
+            return res.status(401).json({ message: 'Invalid Password' });  //Wrong passw
         }
 
         //jwt
-        const token = jwt.sign({ id: userAlreadyExists.id }, JWTSecrect, { expiresIn: '30m' });
+        const token = jwt.sign({ id: userDbData.id }, JWTSecrect, { expiresIn: '30m' });
 
-        return res.status(200).json({ userAlreadyExists, token });
+        return res.status(200).json({ userDbData, token });
 
     } catch (err) {
-        console.error('Erro ao tentar fazer login:', err);
-        res.status(500).json({ message: 'Erro no servidor. Tente novamente mais tarde' });
+        console.error('Error while trying to login:', err);
+        res.status(500).json({ message: 'Server error. try again later.' });
     }
 });
 
