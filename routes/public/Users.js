@@ -61,7 +61,7 @@ router.post('/signin', async (req, res) => {
         }
 
         //jwt
-        const token = jwt.sign({ id: userDbData.id }, JWTSecrect, { expiresIn: '30m' });
+        const token = jwt.sign({ id: userDbData.id }, JWTSecrect, { expiresIn: '1m' });
 
         return res.status(200).json({ userDbData, token });
 
