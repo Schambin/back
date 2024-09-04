@@ -62,8 +62,11 @@ The server will start on `http://localhost:3333`
 ## API Endpoints
 
 ### Public Routes
-POST `/register`: Register a new user.
-POST `/signin`: Authenticate a user and get a JWT token.
+
+**POST** `/register`: Register a new user.
+
+**POST** `/signin`: Authenticate a user and get a JWT token.
 
 ### Private Routes (Require JWT)
-GET `/p/list-users`: Fetch a list of all registered users.
+
+**GET** `/p/list-users`: Fetch a list of all registered users.
