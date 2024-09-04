@@ -71,5 +71,6 @@ The server will start on `http://localhost:3333`
 
 **GET** `/p/list-users`: Fetch a list of all registered users.
 
-License
-This project is licensed under the MIT License.
+## License
+
+**This project is licensed under the MIT License.**
