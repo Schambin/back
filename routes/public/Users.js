@@ -57,10 +57,10 @@ router.post('/signin', async (req, res) => {
         const isPasswordCorrect = await bcrypt.compare(userData.password, userDbData.password);
 
         if (!isPasswordCorrect) {
-            return res.status(401).json({ message: 'Invalid Password' });  //Wrong passw
+            return res.status(401).json({ message: 'Invalid Password' });
         }
 
-        //jwt
+        //jwt auth
         const token = jwt.sign({ id: userDbData.id }, JWTSecrect, { expiresIn: '1m' });
 
         return res.status(200).json({ userDbData, token });
