@@ -1,10 +1,10 @@
 import express, { Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
-export const router = express.Router();
+export const privateRoutes = express.Router();
 const prisma = new PrismaClient();
 
-router.get('/list-users', async (res: Response) => {
+privateRoutes.get('/list-users', async (res: Response) => {
     try {
         const users = await prisma.user.findMany({
         //Select which data from users table will return. Change to boolean

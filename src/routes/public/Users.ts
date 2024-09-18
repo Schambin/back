@@ -3,12 +3,12 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
 
-export const router = express.Router();
+export const publicRoutes = express.Router();
 const prisma = new PrismaClient();
 const JWTSecrect = process.env.JWT_SECRET_KEY as string;
 
 //Register
-router.post('/register', async (req: Request, res: Response) => {
+publicRoutes.post('/register', async (req: Request, res: Response) => {
     try {
         const { name, email, password } = req.body;
 
@@ -39,7 +39,7 @@ router.post('/register', async (req: Request, res: Response) => {
 });
 
 //Login
-router.post('/signin', async (req: Request, res: Response) => {
+publicRoutes.post('/signin', async (req: Request, res: Response) => {
     try {
         const { email, password } = req.body;
         const userDbData = await prisma.user.findUnique({
