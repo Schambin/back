@@ -1,21 +1,19 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
 
-const router = express.Router();
+export const router = express.Router();
 const prisma = new PrismaClient();
-const JWTSecrect = process.env.JWT_SECRET_KEY;
+const JWTSecrect = process.env.JWT_SECRET_KEY as string;
 
 //Register
-router.post('/register', async (req, res) => {
+router.post('/register', async (req: Request, res: Response) => {
     try {
-        const user = req.body;
+        const { name, email, password } = req.body;
 
         const existingUser = await prisma.user.findUnique({
-            where: {
-                email: user.email,
-            },
+            where: { email },
         });
 
         if (existingUser) {
@@ -23,12 +21,12 @@ router.post('/register', async (req, res) => {
         }
 
         const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(user.password, salt);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         const userDB = await prisma.user.create({
             data: {
-                name: user.name,
-                email: user.email,
+                name: name,
+                email: email,
                 password: hashedPassword,
             },
         });
@@ -41,20 +39,18 @@ router.post('/register', async (req, res) => {
 });
 
 //Login
-router.post('/signin', async (req, res) => {
+router.post('/signin', async (req: Request, res: Response) => {
     try {
-        const userData = req.body;
+        const { email, password } = req.body;
         const userDbData = await prisma.user.findUnique({
-            where: {
-                email: userData.email,
-            },
+            where: { email },
         });
 
         if (!userDbData) {
             return res.status(404).json({ message: 'User not found.' });
         }
 
-        const isPasswordCorrect = await bcrypt.compare(userData.password, userDbData.password);
+        const isPasswordCorrect = await bcrypt.compare(password, userDbData.password);
 
         if (!isPasswordCorrect) {
             return res.status(401).json({ message: 'Invalid Password' });
@@ -70,5 +66,3 @@ router.post('/signin', async (req, res) => {
         res.status(500).json({ message: 'Server error. try again later.' });
     }
 });
-
-export default router;
