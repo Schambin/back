@@ -70,3 +70,7 @@ The server will start on `http://localhost:3333`
 ### Private Routes (Require JWT)
 
 **GET** `/p/list-users`: Fetch a list of all registered users.
+
+## License
+
+**This project is licensed under the MIT License.**
