@@ -1,10 +1,10 @@
-import express from 'express';
+import express, { Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 
-const router = express.Router();
+export const router = express.Router();
 const prisma = new PrismaClient();
 
-router.get('/list-users', async (req, res) => {
+router.get('/list-users', async (res: Response) => {
     try {
         const users = await prisma.user.findMany({
         //Select which data from users table will return. Change to boolean
@@ -23,5 +23,3 @@ router.get('/list-users', async (req, res) => {
         return res.status(500).json({ message: 'Error fetching users' });
     }
 });
-
-export default router;
